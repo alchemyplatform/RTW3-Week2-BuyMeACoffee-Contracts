@@ -17,6 +17,7 @@ You can get an Alchemy RPC URL for free [here](https://alchemy.com/?a=roadtoweb3
 ## !!! Be very careful with exporting your private key !!!
 
 You can get your Private Key from MetaMask [like this](https://metamask.zendesk.com/hc/en-us/articles/360015289632-How-to-Export-an-Account-Private-Key).
+If you have any questions or concerns about this, please find someone you trust to sanity check you! 
 
 ## !!! Be very careful with exporting your private key !!!
 
