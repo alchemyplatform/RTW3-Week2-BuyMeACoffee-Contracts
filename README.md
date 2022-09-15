@@ -1,4 +1,4 @@
-# BuyMeACoffee solidity contract
+# BuyMeARedacted solidity contract
 
 This repo contains a contract that implements tipping functionality.
 
@@ -27,10 +27,10 @@ Deploy your contract with:
 npx hardhat run scripts/deploy.js
 ```
 
-Run an example buy coffee flow locally with:
+Run an example buy Redacted flow locally with:
 
 ```
-npx hardhat run scripts/buy-coffee.js
+npx hardhat run scripts/buy-Redacted.js
 ```
 
 Once you have a contract deployed to Goerli testnet, grab the contract address and update the `contractAddress` variable in `scripts/withdraw.js`, then:

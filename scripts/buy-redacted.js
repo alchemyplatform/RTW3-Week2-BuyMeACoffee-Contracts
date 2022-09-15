@@ -11,18 +11,21 @@ async function printBalances(addresses) {
   let idx = 0;
   for (const address of addresses) {
     console.log(`Address ${idx} balance: `, await getBalance(address));
-    idx ++;
+    idx++;
   }
 }
 
-// Logs the memos stored on-chain from coffee purchases.
+// Logs the memos stored on-chain from Redacted purchases.
 async function printMemos(memos) {
   for (const memo of memos) {
     const timestamp = memo.timestamp;
     const tipper = memo.name;
     const tipperAddress = memo.from;
     const message = memo.message;
-    console.log(`At ${timestamp}, ${tipper} (${tipperAddress}) said: "${message}"`);
+    const item = memo.item;
+    console.log(
+      `At ${timestamp}, ${tipper} (${tipperAddress}) said: "${message}" and told you to buy "${item}"`
+    );
   }
 }
 
@@ -31,30 +34,36 @@ async function main() {
   const [owner, tipper, tipper2, tipper3] = await hre.ethers.getSigners();
 
   // We get the contract to deploy.
-  const BuyMeACoffee = await hre.ethers.getContractFactory("BuyMeACoffee");
-  const buyMeACoffee = await BuyMeACoffee.deploy();
+  const BuyMeARedacted = await hre.ethers.getContractFactory("BuyMeARedacted");
+  const buyMeARedacted = await BuyMeARedacted.deploy();
 
   // Deploy the contract.
-  await buyMeACoffee.deployed();
-  console.log("BuyMeACoffee deployed to:", buyMeACoffee.address);
+  await buyMeARedacted.deployed();
+  console.log("BuyMeARedacted deployed to:", buyMeARedacted.address);
 
-  // Check balances before the coffee purchase.
-  const addresses = [owner.address, tipper.address, buyMeACoffee.address];
+  // Check balances before the Redacted purchase.
+  const addresses = [owner.address, tipper.address, buyMeARedacted.address];
   console.log("== start ==");
   await printBalances(addresses);
 
-  // Buy the owner a few coffees.
-  const tip = {value: hre.ethers.utils.parseEther("1")};
-  await buyMeACoffee.connect(tipper).buyCoffee("Carolina", "You're the best!", tip);
-  await buyMeACoffee.connect(tipper2).buyCoffee("Vitto", "Amazing teacher", tip);
-  await buyMeACoffee.connect(tipper3).buyCoffee("Kay", "I love my Proof of Knowledge", tip);
+  // Buy the owner a few Redacteds.
+  const tip = { value: hre.ethers.utils.parseEther("1") };
+  await buyMeARedacted
+    .connect(tipper)
+    .buyRedacted("Carolina", "You're the best!", tip);
+  await buyMeARedacted
+    .connect(tipper2)
+    .buyRedacted("Vitto", "Amazing teacher", tip);
+  await buyMeARedacted
+    .connect(tipper3)
+    .buyRedacted("Kay", "I love my Proof of Knowledge", tip);
 
-  // Check balances after the coffee purchase.
-  console.log("== bought coffee ==");
+  // Check balances after the Redacted purchase.
+  console.log("== bought Redacted ==");
   await printBalances(addresses);
 
   // Withdraw.
-  await buyMeACoffee.connect(owner).withdrawTips();
+  await buyMeARedacted.connect(owner).withdrawTips();
 
   // Check balances after withdrawal.
   console.log("== withdrawTips ==");
@@ -62,7 +71,7 @@ async function main() {
 
   // Check out the memos.
   console.log("== memos ==");
-  const memos = await buyMeACoffee.getMemos();
+  const memos = await buyMeARedacted.getMemos();
   printMemos(memos);
 }
 

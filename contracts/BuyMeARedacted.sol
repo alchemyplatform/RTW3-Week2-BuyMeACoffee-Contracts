@@ -3,13 +3,14 @@ pragma solidity ^0.8.0;
 
 // Example deployed to Goerli: 0xDBa03676a2fBb6711CB652beF5B7416A53c1421D
 
-contract BuyMeACoffee {
+contract BuyMeARedacted {
     // Event to emit when a Memo is created.
     event NewMemo(
         address indexed from,
         uint256 timestamp,
         string name,
-        string message
+        string message,
+        string item
     );
     
     // Memo struct.
@@ -18,13 +19,14 @@ contract BuyMeACoffee {
         uint256 timestamp;
         string name;
         string message;
+        string item;
     }
     
     // Address of contract deployer. Marked payable so that
     // we can withdraw to this address later.
     address payable owner;
 
-    // List of all memos received from coffee purchases.
+    // List of all memos received from Redacted purchases.
     Memo[] memos;
 
     constructor() {
@@ -41,20 +43,22 @@ contract BuyMeACoffee {
     }
 
     /**
-     * @dev buy a coffee for owner (sends an ETH tip and leaves a memo)
-     * @param _name name of the coffee purchaser
+     * @dev buy a Redacted for owner (sends an ETH tip and leaves a memo)
+     * @param _name name of the Redacted purchaser
      * @param _message a nice message from the purchaser
+     * @param _item nice message from the purchaser
      */
-    function buyCoffee(string memory _name, string memory _message) public payable {
-        // Must accept more than 0 ETH for a coffee.
-        require(msg.value > 0, "can't buy coffee for free!");
+    function buyRedacted(string memory _name, string memory _message, string memory _item) public payable {
+        // Must accept more than 0 ETH for a Redacted.
+        require(msg.value > 0, "can't buy Redacted for free!");
 
         // Add the memo to storage!
         memos.push(Memo(
             msg.sender,
             block.timestamp,
             _name,
-            _message
+            _message,
+            _item
         ));
 
         // Emit a NewMemo event with details about the memo.
@@ -62,7 +66,8 @@ contract BuyMeACoffee {
             msg.sender,
             block.timestamp,
             _name,
-            _message
+            _message,
+            _item
         );
     }
 
